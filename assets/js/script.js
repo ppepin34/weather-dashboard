@@ -91,8 +91,9 @@ function showCurrent(currentWeather, city) {
     header.textContent = city + " (" + month + "/" + date + "/" + year + ")"
 
     // create icon
-    var icon = document.createElement('i');
+    var icon = document.createElement('img');
     icon.src = "https://openweathermap.org/img/wn/" + currentWeather.weather[0].icon + ".png";
+    icon.alt = "Icon showing current weather"
 
     // create temp p
     var temp = document.createElement("p");
