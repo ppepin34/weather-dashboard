@@ -1,72 +1,71 @@
-// search by city
+// search for city coordinates
 function search(city) {
-    
-    // get info for current weather
-    var currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=4f3ed641c61002cec807bbe3f860da8f";
+    // find lat and lon for city entered, gets first city to match the name
+    var apiURL = "http://api.positionstack.com/v1/forward?access_key=c5fec3abe23506a05da7891d1026cb65&query=" + city;
 
-    // get forecast info
-    var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&cnt=5&appid=4f3ed641c61002cec807bbe3f860da8f";
+    // data request
+    fetch(apiURL).then(function (response) {
 
-    // submit data request for current weather
-    fetch(currentWeatherURL).then(function (response){
-
-        //request was successful
+        // if query is successful
         if (response.ok) {
-            response.json().then(function (data){
-
-                // if data = null return error
-                if (data.length === 0){
-                    $("#currentWeathError").show();
-                }
-                // else send to card for current weather
+            response.json().then(function (data) {
+                // if data = null, return error
+                if (data.length === 0) {
+                    // show error
+                } 
+                // else get lat and lon
                 else {
-                    // showCurrentWeather(data);
-                    console.log(data);
-                }
+                    var lat = data.data[0].latitude;
+                    var lon = data.data[0].longitude;
+                    
+                    // pass lat and lon to weather function
+                    getWeather(lat, lon);
+                };
             })
         };
-    });
-
-    // submit data request for forecast
-    fetch(forecastURL).then(function (response){
-
-        //request was successful
-        if (response.ok) {
-            response.json().then(function (data){
-
-                // if data = null return error
-                if (data.length === 0){
-                    $("#forecasttWeathError").show();
-                }
-                // else send to card for current weather
-                else {
-                    // showWeatherForecast(data);
-                    console.log(data)
-                }
-            })
-        };
-    });
+    })
 };
 
-// function showCurrentWeather(data) {
+// function to get weather data
+function getWeather(lat, lon) {
+    // get info for current weather
+    var weatherURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=4f3ed641c61002cec807bbe3f860da8f";
 
-// };
+    // submit data request for current weather
+    fetch(weatherURL).then(function (response) {
 
-// function showWeatherForecast(data) {
+        //request was successful
+        if (response.ok) {
+            response.json().then(function (data) {
 
-// };
+                // if data = null return error
+                if (data.length === 0) {
+                    $("#currentWeathError").show();
+                }
+                // else send to showWeather and generate html for weather
+                else {
+                    showWeather(data);
+                }
+            })
+        };
+    });
+}
 
+// function to show weather data
+function showWeather(data) {
+    console.log(data);
+}
 // search again on click
 
 // event listener for initial search
-$("#searchCity").submit(function(event) {
-    
+$("#searchCity").submit(function (event) {
+
     // prevent refresh
     event.preventDefault();
 
     // get city from form
     var city = ($("#city").val());
-    
+
     city = city.trim()
         .toLowerCase();
 
