@@ -54,6 +54,12 @@ function getWeather(lat, lon) {
 // function to show weather data
 function showWeather(data) {
     console.log(data);
+
+    // get data for current weather
+    console.log(data.current);
+
+    //get data for daily forecast
+    console.log(data.daily);
 }
 // search again on click
 
