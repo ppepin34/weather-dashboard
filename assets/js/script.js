@@ -69,7 +69,12 @@ function splitWeather(data, city) {
 
     // pass city name to createCityBtn
     createCityBtn(city);
+    
+    // push city to array
+    searchHistory.push(city);
 
+    // pass to save city
+    saveCity(city);
 };
 
 // function to get date
@@ -222,20 +227,38 @@ function createCityBtn(city) {
 
     // append to searchHistoryContainer
     searchHistoryContainer.appendChild(btn);
-
-    // pass to save city
-    saveCity(city);
 }; 
 
 // save city to array, push to localStorage
-saveCity(city);
+function saveCity(city) {
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+};
+
+// load cities on start
+function loadCities() {
+
+    // check for previous searches, if null, set to blank array
+    let citiesPresent = localStorage.getItem("searchHistory");
+    searchHistory = JSON.parse(citiesPresent ?? '[]');
+
+    // if nothing present, end function
+    if (!searchHistory) {
+        return;
+    };
+
+    // loop over each and create new buttons
+    for (let i = 0; i < searchHistory.length; i++){
+        createCityBtn(searchHistory[i]);
+    };
+};
+
 
 // search again on click
 $(searchHistoryContainer).on("click", ".search", function () {
     let city = this.textContent
 
     search(city);
-})
+});
 
 // event listener for initial search
 $("#searchCity").submit(function (event) {
@@ -252,3 +275,5 @@ $("#searchCity").submit(function (event) {
 
     ($("#city").val(""));
 });
+
+loadCities();
