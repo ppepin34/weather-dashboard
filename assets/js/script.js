@@ -1,6 +1,7 @@
 const currentWeatherContainer = document.getElementById('weatherCurrent');
 const forecastWeatherContainer = document.getElementById('weatherForecast');
 const searchHistoryContainer = document.getElementById('searchHistory');
+var searchHistory = [];
 
 // search for city coordinates
 function search(city) {
@@ -86,6 +87,11 @@ function forecastDate(dt) {
 // show current weather
 function showCurrent(currentWeather, city) {
 
+    // Delete previous contents from container
+    while(currentWeatherContainer.hasChildNodes()) {
+        currentWeatherContainer.removeChild(currentWeatherContainer.firstChild)
+    };
+
     // call forecastDate()
     let dateObject = forecastDate(currentWeather.dt);
 
@@ -143,6 +149,11 @@ function showCurrent(currentWeather, city) {
 
 // create elements for weather forecast
 function showForecast(forecastArray) {
+
+    // Delete previous contents from container
+    while(forecastWeatherContainer.hasChildNodes()) {
+        forecastWeatherContainer.removeChild(forecastWeatherContainer.firstChild)
+    };
 
     // Create header for Div
     let header = document.createElement("h2");
@@ -207,15 +218,21 @@ function createCityBtn(city) {
     btn.textContent = city;
 
     //set button classes
-    btn.classList = ("search")
+    btn.classList = ("search");
 
     // append to searchHistoryContainer
     searchHistoryContainer.appendChild(btn);
+
+    // pass to save city
+    saveCity(city);
 }; 
+
+// save city to array, push to localStorage
+saveCity(city);
 
 // search again on click
 $(searchHistoryContainer).on("click", ".search", function () {
-    let city = $(this).textContent;
+    let city = this.textContent
 
     search(city);
 })
@@ -231,5 +248,7 @@ $("#searchCity").submit(function (event) {
 
     city = city.trim();
 
-    search(city)
+    search(city);
+
+    ($("#city").val(""));
 });
