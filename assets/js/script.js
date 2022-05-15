@@ -69,7 +69,7 @@ function splitWeather(data, city) {
 
     // pass city name to createCityBtn
     createCityBtn(city);
-    
+
     // push city to array
     searchHistory.push(city);
 
@@ -93,7 +93,7 @@ function forecastDate(dt) {
 function showCurrent(currentWeather, city) {
 
     // Delete previous contents from container
-    while(currentWeatherContainer.hasChildNodes()) {
+    while (currentWeatherContainer.hasChildNodes()) {
         currentWeatherContainer.removeChild(currentWeatherContainer.firstChild)
     };
 
@@ -109,54 +109,61 @@ function showCurrent(currentWeather, city) {
     // create header for current weather
     var header = document.createElement("h2");
     header.classList = "";
-    header.textContent = city + " (" + month + "/" + date + "/" + year + ")";
+    header.innerHTML = city + " (" + month + "/" + date + "/" + year + ")";
 
     // create icon
     var icon = document.createElement('img');
-    icon.src = "https://openweathermap.org/img/wn/" + currentWeather.weather[0].icon + "@2x.png";
+    icon.classList = "img-fluid m"
+    icon.src = "https://openweathermap.org/img/wn/" + currentWeather.weather[0].icon + ".png";
     icon.alt = "Icon showing current weather";
 
     // create temp p
     var temp = document.createElement("p");
-    temp.innerHTML = currentWeather.temp + "&#8457";
+    temp.innerHTML = "Temp: " + currentWeather.temp + "&#8457";
 
     // create wind p
     var wind = document.createElement('p');
-    wind.textContent = currentWeather.wind_speed + " MPH";
+    wind.innerHTML = "Wind: " + currentWeather.wind_speed + " MPH";
 
     // create humidity p
     var humidity = document.createElement('p');
-    humidity.textContent = currentWeather.humidity + "%";
+    humidity.innerHTML = "Humidity: " + currentWeather.humidity + "%";
 
     // create uvi p, may change element type to add background color
     var uvi = document.createElement('p');
-    uvi.textContent = currentWeather.uvi;
+    var uviSpan = document.createElement('span');
+    uviSpan.innerHTML = currentWeather.uvi;
+    uvi.innerHTML = "UV Index: ";
+
 
     // define bg color for uvi
-    if (currentWeather.uvi <=2 ) {
-        console.log("green");
-    } else if (currentWeather.uvi >2 || currentWeather.uvi <= 5) {
-        console.log("yellow");
-    } else if (currentWeather.uvi >5 || currentWeather.uvi <= 7){
-        console.log("orange");
+    if (currentWeather.uvi <= 2) {
+        uviSpan.classList = "badge bg-success text-white";
+    } else if (currentWeather.uvi > 2 || currentWeather.uvi <= 5) {
+        uvi.classList = "badge bg-warning";
+    } else if (currentWeather.uvi > 5 || currentWeather.uvi <= 7) {
+        uvi.classList = "badge bg-orange";
     } else {
-        console.log('red');
+        uvi.classList = "badge bg-danger";
     }
 
     // append all of the above to currentWeatherContainer
     currentWeatherContainer.appendChild(header);
-    // currentWeatherContainer.appendChild(icon);
+    currentWeatherContainer.appendChild(icon);
     currentWeatherContainer.appendChild(temp);
     currentWeatherContainer.appendChild(wind);
     currentWeatherContainer.appendChild(humidity);
     currentWeatherContainer.appendChild(uvi);
+    uvi.appendChild(uviSpan)
+
+    // uvi.innerHTML = "UV Index: " + uviSpan;
 };
 
 // create elements for weather forecast
 function showForecast(forecastArray) {
 
     // Delete previous contents from container
-    while(forecastWeatherContainer.hasChildNodes()) {
+    while (forecastWeatherContainer.hasChildNodes()) {
         forecastWeatherContainer.removeChild(forecastWeatherContainer.firstChild)
     };
 
@@ -183,35 +190,36 @@ function showForecast(forecastArray) {
 
         // create header
         let header = document.createElement("h3");
-        header.textContent  ="(" + month + "/" + date + "/" + year + ")";
+        header.innerHTML = "(" + month + "/" + date + "/" + year + ")";
 
         // create icon
         let icon = document.createElement("img");
+        icon.classList = ".img-fluid"
         icon.src = "https://openweathermap.org/img/wn/" + thisDay.weather[0].icon + ".png";
         icon.alt = "Icon showing forecasted weather";
 
         // create temp p
         var temp = document.createElement("p");
-        temp.innerHTML = thisDay.temp.max + "&#8457";
+        temp.innerHTML = "Temp: " + thisDay.temp.max + "&#8457";
 
         // create wind p
         var wind = document.createElement('p');
-        wind.textContent = thisDay.wind_speed + " MPH";
+        wind.innerHTML = "Wind: " + thisDay.wind_speed + " MPH";
 
         // create humidity p
         var humidity = document.createElement('p');
-        humidity.textContent = thisDay.humidity + "%";
+        humidity.innerHTML = "Humidity: " + thisDay.humidity + "%";
 
         // append all of the above to forecastCard
         forecastCard.appendChild(header);
-        // forecastCard.appendChild(icon);
+        forecastCard.appendChild(icon);
         forecastCard.appendChild(temp);
         forecastCard.appendChild(wind);
         forecastCard.appendChild(humidity);
 
         // append forecastCard to forecastWeatherContainer
 
-        forecastWeatherContainer. appendChild(forecastCard);
+        forecastWeatherContainer.appendChild(forecastCard);
     }
 };
 
@@ -223,11 +231,11 @@ function createCityBtn(city) {
     btn.textContent = city;
 
     //set button classes
-    btn.classList = ("search");
+    btn.classList = ("search btn btn-secondary mb-1 me-1");
 
     // append to searchHistoryContainer
     searchHistoryContainer.appendChild(btn);
-}; 
+};
 
 // save city to array, push to localStorage
 function saveCity(city) {
@@ -247,7 +255,7 @@ function loadCities() {
     };
 
     // loop over each and create new buttons
-    for (let i = 0; i < searchHistory.length; i++){
+    for (let i = 0; i < searchHistory.length; i++) {
         createCityBtn(searchHistory[i]);
     };
 };
