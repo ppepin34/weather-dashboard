@@ -1,5 +1,5 @@
 const currentWeatherContainer = document.getElementById('weatherCurrent');
-const forecastWeatherContainer = document.getElementById('weatherForecast');
+const forecastWeatherContainer = document.getElementById('forecast-container');
 const searchHistoryContainer = document.getElementById('searchHistory');
 var searchHistory = [];
 
@@ -113,7 +113,7 @@ function showCurrent(currentWeather, city) {
 
     // create icon
     var icon = document.createElement('img');
-    icon.classList = "img-fluid m"
+    icon.classList = "img-fluid height-auto icon"
     icon.src = "https://openweathermap.org/img/wn/" + currentWeather.weather[0].icon + ".png";
     icon.alt = "Icon showing current weather";
 
@@ -167,17 +167,13 @@ function showForecast(forecastArray) {
         forecastWeatherContainer.removeChild(forecastWeatherContainer.firstChild)
     };
 
-    // Create header for Div
-    let header = document.createElement("h2");
-
-    header.textContent = "5-Day Forecast:";
-
     // loop through first 5 days of weather, skipping today
     for (i = 1; i <= 5; i++) {
         thisDay = forecastArray[i];
 
         // create card for forecast day
         let forecastCard = document.createElement("div");
+        forecastCard.classList = "card col-12 col-md-2";
 
         // get date for forecast
         let dateObject = forecastDate(thisDay.dt);
@@ -190,11 +186,12 @@ function showForecast(forecastArray) {
 
         // create header
         let header = document.createElement("h3");
+        header.style = ('width: 5rem');
         header.innerHTML = "(" + month + "/" + date + "/" + year + ")";
 
         // create icon
         let icon = document.createElement("img");
-        icon.classList = ".img-fluid"
+        icon.classList = ".img-fluid "
         icon.src = "https://openweathermap.org/img/wn/" + thisDay.weather[0].icon + ".png";
         icon.alt = "Icon showing forecasted weather";
 
