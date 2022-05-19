@@ -15,7 +15,8 @@
 
   ## Installation
 
-  This project is a web application, and only requires the user to go to the deployed url
+  This project is a web application, and only requires the user to go to the deployed url.
+  https://ppepin34.github.io/weather-dashboard/
 
   ## Usage
 
@@ -36,4 +37,5 @@
   - ppepin34@gmail.com
   - [github](github.com/ppepin34)
 
-  
+
+![image](https://user-images.githubusercontent.com/59454905/169185983-fc172080-f75d-48c6-9917-0c88c9cee401.png)
