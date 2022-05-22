@@ -6,7 +6,7 @@ var searchHistory = [];
 // search for city coordinates
 function search(city) {
     // find lat and lon for city entered, gets first city to match the name
-    var apiURL = "http://api.positionstack.com/v1/forward?access_key=c5fec3abe23506a05da7891d1026cb65&query=" + city;
+    var apiURL = "https://api.positionstack.com/v1/forward?access_key=c5fec3abe23506a05da7891d1026cb65&query=" + city;
 
     // data request
     fetch(apiURL).then(function (response) {
